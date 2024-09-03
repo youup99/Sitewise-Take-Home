@@ -42,7 +42,7 @@ app.patch("/issues/:issueId", (req, res) => {
   const requestBody = req.body;
   const id = req.params["issueId"];
   console.log(requestBody);
-  console.log(id);
+  console.log("Issue to update: " + id);
 
   updateIssue(id, requestBody);
   res.json({ message: "Issue updated!" });
@@ -51,7 +51,7 @@ app.patch("/issues/:issueId", (req, res) => {
 // Delete existing issue
 app.delete("/issues/:issueId", (req, res) => {
   const id = req.params["issueId"];
-  console.log(id);
+  console.log("Issue to delete: " + id);
 
   deleteIssue(id);
   res.json({ message: "Issue deleted!" });
