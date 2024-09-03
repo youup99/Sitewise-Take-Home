@@ -1,23 +1,60 @@
-const express = require("express");
+import express from "express";
+import bodyParser from "body-parser";
+import {
+  createIssue,
+  deleteIssue,
+  getAllIssues,
+  getIssueById,
+  getRandomIssue,
+  updateIssue,
+} from "./issue.js";
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(bodyParser.json());
 
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Get all issues
+// app.get("/issues", (req, res) => {
+//   const allIssues = getAllIssues();
+//   console.log(allIssues);
+//   res.json(allIssues);
+// });
+
+// Get issue by ID
+app.get("/issues", (req, res) => {
+  const issue = getRandomIssue();
+  console.log(issue);
+  res.json(issue);
 });
 
-app.post("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Create new issue
+app.post("/issues", (req, res) => {
+  const requestBody = req.body;
+  console.log(requestBody);
+
+  createIssue(requestBody);
+  res.json({ message: "Issue created!" });
 });
 
-app.patch("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Update existing issue
+app.patch("/issues/:issueId", (req, res) => {
+  const requestBody = req.body;
+  const id = req.params["issueId"];
+  console.log(requestBody);
+  console.log(id);
+
+  updateIssue(id, requestBody);
+  res.json({ message: "Issue updated!" });
 });
 
-app.delete("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Delete existing issue
+app.delete("/issues/:issueId", (req, res) => {
+  const id = req.params["issueId"];
+  console.log(id);
+
+  deleteIssue(id);
+  res.json({ message: "Issue deleted!" });
 });
 
 app.listen(PORT, () => {
